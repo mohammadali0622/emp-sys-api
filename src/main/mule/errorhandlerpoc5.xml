@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="cb0926b1-ddf1-40c4-967f-640d4522e159" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="mianflow" doc:id="b4efe51c-d476-4257-9635-0dd4f0d2ba89" >
+		<http:listener doc:name="Listener" doc:id="670cf324-47dc-49cf-9511-eb64f9e83466" config-ref="HTTP_Listener_config" path="/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e9bdcbc3-91ea-4302-b978-6c0abc751a8a" />
+		<flow-ref doc:name="Flow Reference" doc:id="c2587579-5fb1-41a5-8a06-2e5514f491b5" name="privateflow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="fc92883c-f006-4fe7-9c7d-9b40ca9a2fec" />
+		<logger level="INFO" doc:name="Logger" doc:id="86e2e1c2-de13-4ccb-b305-f69133131751" />
+	</flow>
+	<flow name="privateflow" doc:id="711c3da0-5fa0-4a0d-bfcf-41e6a9f3d718" >
+		<logger level="INFO" doc:name="Logger" doc:id="52695521-baf1-4312-a9e0-113a77b1687a" />
+		<logger level="INFO" doc:name="Logger" doc:id="72b86228-6448-45f0-8a6a-04c0157aeb58" />
+		<validation:is-null doc:id="77fa0833-46f7-4f00-ba7c-bcf036a3ce77" value="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d02db316-c60f-46b5-9ccc-c2284d215ab0" />
+		<logger level="INFO" doc:name="Logger" doc:id="e6fea9e9-5f44-40e1-90cd-d3d497457513" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="9333ce57-5826-4cf6-8ad1-8759e870bdc5" >
+				<logger level="INFO" doc:name="Logger" doc:id="e09e36c0-3e8d-4215-94be-7bbebfae584e" />
+				<logger level="INFO" doc:name="Logger" doc:id="7632f02b-44d8-4c46-943a-4f063ec7eec7" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
